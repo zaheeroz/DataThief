@@ -1,0 +1,38 @@
+BasicGame
+    SpriteSet
+        floor > Immovable img=oryx/tilesDT autotiling=false hidden=false
+        eDoor > Door color=GREEN img=oryx/dooropen1
+        avatar > MovingAvatar img=oryx/PlayerDT
+        loud > Immovable img=oryx/LoudDT       
+        cam  > Immovable img=oryx/CameraDT  
+        firewall  > Immovable img=oryx/fireWallDT  
+        bcoin > Immovable img=oryx/bitCoinDT 
+        wall > Immovable img=oryx/WallDT
+        tile > Immovable img=oryx/grass_7
+
+    InteractionSet
+
+        avatar wall > stepBack
+        eDoor avatar > killSprite scoreChange=1
+        avatar loud > killSprite scoreChange=-1
+        avatar cam > killSprite scoreChange=-1
+        avatar firewall > killSprite scoreChange=-1
+        bcoin avatar > killSprite scoreChange=1
+
+         
+    TerminationSet
+        Timeout limit=500 win=False
+        SpriteCounter stype=avatar limit=0 win=False
+        SpriteCounter stype=eDoor limit=0 win=True
+
+    LevelMapping
+        e > eDoor floor
+        l > loud floor
+        b > bcoin floor        
+        c > cam floor
+        t > tile floor
+        A > avatar floor
+        w > wall floor
+        f > firewall floor
+        
+        
