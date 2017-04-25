@@ -403,8 +403,7 @@ return true;
 	ArcadeMachine.warmUp(toPlay, CompetitionParameters.WARMUP_TIME);
 
 	// Create the player.
-	AbstractPlayer player = ArcadeMachine.createPlayer(agentName, actionFile, toPlay.getObservation(), randomSeed,
-		isHuman);
+	AbstractPlayer player = ArcadeMachine.createPlayer(agentName, actionFile, toPlay.getObservation(), randomSeed, isHuman);
 
 	if (player == null) {
 	    // Something went wrong in the constructor, controller disqualified

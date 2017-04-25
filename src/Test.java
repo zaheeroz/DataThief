@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Random;
 
+import levelGenerators.geneticLevelGenerator.Chromosome;
 import levelGenerators.geneticLevelGenerator.SharedData;
 import core.ArcadeMachine;
 import core.VGDLFactory;
@@ -8,6 +10,7 @@ import core.VGDLRegistry;
 import core.game.Game;
 import core.game.SLDescription;
 import tools.IO;
+import controllers.singlePlayer.sampleMCTS.*;
 
 /**
  * Created with IntelliJ IDEA. User: Diego Date: 04/10/13 Time: 16:29 This is a
@@ -107,7 +110,7 @@ public class Test {
 	
 
 	// Level Type: Hyb, GA, NS
-    SharedData.LEVEL_TYPE="NS";// "GA" // "NS"   "Hyb"
+    SharedData.LEVEL_TYPE="Hyb";// "GA" // "NS"   "Hyb"
 	
 	
 if (SharedData.LEVEL_TYPE=="Hyb")
@@ -136,23 +139,29 @@ else if (SharedData.LEVEL_TYPE=="NS")
 }
 
 
+ 
 
 	//6. This plays N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
-//	int N = 92, L = 5, M = 10;
-//	boolean saveActions = false;
-//	String[] levels = new String[L];
-//	String[] actionFiles = new String[L*M];
-//	for(int i = 0; i < N; ++i)
-//	{
-//		int actionIdx = 0;
-//		game = gamesPath + games[i] + ".txt";
-//		for(int j = 0; j < L; ++j){
-//			levels[j] = gamesPath + games[i] + "_lvl" + j +".txt";
-//			if(saveActions) for(int k = 0; k < M; ++k)
-//			actionFiles[actionIdx++] = "actions_game_" + i + "_level_" + j + "_" + k + ".txt";
-//		}
-//		ArcadeMachine.runGames(game, levels, M, sampleMCTSController, saveActions? actionFiles:null);
-//	}
+ 	int N = 92, L = 5, M = 10;
+ 	boolean saveActions = false;
+ 	String[] levels = new String[L];
+ 	String[] actionFiles = new String[L*M];
+  
+ 	int actionIdx = 0;
+ 		//game = gamesPath + games[i] + ".txt";
+ 		for(int j = 0; j < L; ++j){
+ 			levels[j] = gamesPath + games[93] + "_lvl" + j +".txt";
+ 		if(saveActions) for(int k = 0; k < M; ++k)
+ 			actionFiles[actionIdx++] = "actions_game_" + 93 + "_level_" + j + "_" + k + ".txt";
+ 		}
+ 		
+ 		Chromosome getFiles=new Chromosome(); 		
+ 		ArrayList<String> LvlFiles= getFiles.getLevelFiles() ;
+ 	
+ 		levels[0]= LvlFiles.get(1);
+ 		
+ 		ArcadeMachine.runGames(game, levels, M, sampleMCTSController, saveActions? actionFiles:null);
+ 	 
 
 	// 7. Generate rules (Interaction and Terminations) for a fixed level
 	// ArcadeMachine.generateRules(game, level1, randomRuleGenerator, recordGameFile, seed);
