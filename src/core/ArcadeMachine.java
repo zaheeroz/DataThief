@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import levelGenerators.geneticLevelGenerator.SharedData;
 import core.competition.CompetitionParameters;
 import core.game.Game;
 import core.game.GameDescription;
@@ -204,6 +205,10 @@ public class ArcadeMachine {
 	VGDLFactory.GetInstance().init();
 	VGDLRegistry.GetInstance().init();
 
+
+
+	
+	
 	// First, we create the game to be played..
 	Game toPlay = new VGDLParser().parseGame(gameFile);
 	String[] lines = new IO().readFile(levelFile);
@@ -246,7 +251,24 @@ public class ArcadeMachine {
     									
 	VGDLFactory.GetInstance().init(); // This always first thing to do.
 	VGDLRegistry.GetInstance().init();
-
+	
+	int fileTotalLength= levelFile.length();
+	int fileBaseLength=39; //   with .txt
+	int fileTxtRemove=fileTotalLength-fileBaseLength;
+	
+	if (fileTotalLength==fileBaseLength)
+	{
+		levelFile = levelFile.substring(0, levelFile.length()-4); 
+		levelFile=levelFile+System.currentTimeMillis();
+		levelFile=levelFile+".txt" ;
+	}
+	else if (fileTotalLength>fileBaseLength)
+	{
+		levelFile = levelFile.substring(0, levelFile.length()-fileTxtRemove); 
+		levelFile=levelFile+System.currentTimeMillis();
+		levelFile=levelFile+".txt" ;
+	}
+	
 	System.out.println(	" ** Generating a level for " + gameFile + ", using level generator " + levelGenerator + " **");
 
 	// First, we create the game to be played..
@@ -309,8 +331,8 @@ public class ArcadeMachine {
      *            indicates if the game is played by a human or a bot
      * @return score of the game plaayed
      */
-    public static double runOneGeneratedLevel(String gameFile, boolean visuals, String agentName, String actionFile,
-	    String levelFile, int randomSeed, boolean isHuman) {
+    public static double runOneGeneratedLevel(String gameFile, boolean visuals, String agentName, String actionFile, String levelFile, int randomSeed, boolean isHuman) 
+    {
 	VGDLFactory.GetInstance().init(); // This always first thing to do.
 	VGDLRegistry.GetInstance().init();
 
@@ -1197,11 +1219,6 @@ public class ArcadeMachine {
 	String level = generator.generateLevel(gd, ect.copy());// Generate a level using GA  return the level in form of a string
 	//System.out.println (level);
 	
-	try(  PrintWriter out = new PrintWriter( "levelGenX.txt" )  ){ out.println( level ); } catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	
 	if (ect.exceededMaxTime()) {
 	    long exceeded = -ect.remainingTimeMillis();
 
@@ -1276,9 +1293,9 @@ public class ArcadeMachine {
 		writer.write(level);
 		writer.close();
 	    }
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
+	} catch (IOException e) { e.printStackTrace(); 	}
+	
+	SharedData.LEVEL_CREATED = levelFile;
     }
 
     /**

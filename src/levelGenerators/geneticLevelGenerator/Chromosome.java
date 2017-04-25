@@ -20,7 +20,8 @@ import tools.IO;
 import tools.LevelAnalyzer;
 import tools.LevelMapping;
 import tools.StepController;
-
+import java.io.File;
+import java.io.FilenameFilter;
 
 public class Chromosome implements Comparable<Chromosome>{
 
@@ -33,6 +34,7 @@ public class Chromosome implements Comparable<Chromosome>{
 	 */
 	private ArrayList<Double> fitness;
 	private ArrayList<Double> PopNoveltyValue;
+	private ArrayList<String> NoveltyMetric;
 
 	/**
 	 * current chromosome fitness if its an infeasible
@@ -75,6 +77,7 @@ public class Chromosome implements Comparable<Chromosome>{
 		}
 		this.fitness = new ArrayList<Double>();
 		this.PopNoveltyValue = new ArrayList<Double>();
+		this.NoveltyMetric=new ArrayList<String>();
 		this.calculated = false;
 		this.stateObs = null;
 	}
@@ -703,8 +706,11 @@ public class Chromosome implements Comparable<Chromosome>{
 		 String conc="";
  	 ArrayList<Chromosome> chromo = new ArrayList<Chromosome>();
 	 chromo= SharedData.CHROMO;     
-	 String level1 = SharedData.ACTIVE_LEVEL ;   
+	 String level1 = SharedData.ACTIVE_LEVEL ;   // the current or manual level
 	 String[] lines = new IO().readFile(level1);
+	 
+	  NoveltyMetric= getLevelFiles();
+	 
 	 
 	 if (chromo==null)
 			 {
@@ -769,6 +775,8 @@ public class Chromosome implements Comparable<Chromosome>{
 			 
 			 }
 		// System.out.println(noveltyValue);
+		 
+		 
 	 }
 	
 	
@@ -789,7 +797,28 @@ public class Chromosome implements Comparable<Chromosome>{
 		return (this.PopNoveltyValue.get(i)) ;
 	}
 	
-	
+	public ArrayList<String>  getLevelFiles()
+	{
+		 
+		File dir = new File("examples/gridphysics/");
+		//String recordLevelFile = generateLevelPath + "_glvl.txt";
+		File[] foundFiles = dir.listFiles();
+		String name="";
+			 
+		for (File file : foundFiles) 
+		{  name=file.getName();
+			if (name.startsWith("datathief_glvl") && (name.endsWith(".txt") ))
+					{
+					
+				System.out.println(file);
+				NoveltyMetric.add(name) ;
+				
+					}
+		     
+		}    
+				
+		return (NoveltyMetric);
+	}
 		 
 	private void elseif(boolean b) {
 		// TODO Auto-generated method stub

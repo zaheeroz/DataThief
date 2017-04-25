@@ -80,6 +80,7 @@ public class Test {
 					// + levelIdx + "_" + seed + ".txt";
 					// where to record the actions
 					// executed. null if not to save.
+  // recordLevelFile=recordLevelFile+System.currentTimeMillis() ; System.out.println(recordLevelFile);
 
 	// 1. This starts a game, in a level, played by a human.
 	ArcadeMachine.playOneGame(game, level1, recordActionsFile, seed);
@@ -105,6 +106,7 @@ public class Test {
 	
 if(ArcadeMachine.generateOneLevel(game, geneticGenerator, recordLevelFile))
   {
+	if (SharedData.LEVEL_CREATED !="") {recordLevelFile=SharedData.LEVEL_CREATED ;}
  		 ArcadeMachine.playOneGeneratedLevel(game, recordActionsFile, recordLevelFile, seed);
  	 }
 

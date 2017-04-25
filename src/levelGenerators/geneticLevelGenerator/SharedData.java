@@ -17,6 +17,7 @@ public class SharedData {
 	public static  int LEVEL_NOVELTY = 0; //Level Novelty
 	public static  String ACTIVE_GAME="";
 	public static  String ACTIVE_LEVEL="";
+	public static  String LEVEL_CREATED="";
 	public static ArrayList<Chromosome> CHROMO; 
 	/**
 	 * The amount of times used to check the one step look ahead and do nothing algorithm

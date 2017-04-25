@@ -136,7 +136,7 @@ public class LevelGenerator extends AbstractLevelGenerator{
  			if(newPopulation.get(i).getConstrainFitness() < 1){
 				System.out.println("\tChromosome #" + (i+1) + " Constrain Fitness: " + newPopulation.get(i).getConstrainFitness());
 			}
-			else{
+			else{ 
 				System.out.println("\tChromosome #" + (i+1) + " Fitness: " + newPopulation.get(i).getFitness());
 			}
 			
