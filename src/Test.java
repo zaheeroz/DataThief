@@ -149,17 +149,13 @@ else if (SharedData.LEVEL_TYPE=="NS")
   
  	int actionIdx = 0;
  		//game = gamesPath + games[i] + ".txt";
- 		for(int j = 0; j < L; ++j){
- 			levels[j] = gamesPath + games[93] + "_lvl" + j +".txt";
- 		if(saveActions) for(int k = 0; k < M; ++k)
- 			actionFiles[actionIdx++] = "actions_game_" + 93 + "_level_" + j + "_" + k + ".txt";
- 		}
+ 		 
  		
- 		Chromosome getFiles=new Chromosome(); 		
- 		ArrayList<String> LvlFiles= getFiles.getLevelFiles() ;
+ 		//Chromosome getFiles=new Chromosome(); 		
+ 		//ArrayList<String> LvlFiles= getFiles.getLevelFiles() ;
  	
- 		levels[0]= LvlFiles.get(1);
- 		
+ 		//levels[0]= LvlFiles.get(1);
+ 		levels[0]="examples/gridphysics/datathief_glvl1493133054483.txt" ;
  		ArcadeMachine.runGames(game, levels, M, sampleMCTSController, saveActions? actionFiles:null);
  	 
 
