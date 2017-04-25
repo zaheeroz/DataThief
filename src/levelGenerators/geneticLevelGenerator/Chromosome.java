@@ -691,7 +691,7 @@ public class Chromosome implements Comparable<Chromosome>{
 			this.stateObs = null;
 		}
 		
-	 	calculateNovelty();
+	 if (( SharedData.LEVEL_TYPE=="Hyb" ) || ( SharedData.LEVEL_TYPE=="NS"))  {	calculateNovelty(); };
  		return fitness;
 	}
 	
@@ -706,11 +706,18 @@ public class Chromosome implements Comparable<Chromosome>{
 		 String conc="";
  	 ArrayList<Chromosome> chromo = new ArrayList<Chromosome>();
 	 chromo= SharedData.CHROMO;     
-	 String level1 = SharedData.ACTIVE_LEVEL ;   // the current or manual level
-	 String[] lines = new IO().readFile(level1);
+	 String level1 ="";
+	 level1= SharedData.ACTIVE_LEVEL ;   // the current or manual level
+	 String[] lines;// = new IO().readFile(level1);
 	 
 	  NoveltyMetric= getLevelFiles();
 	 
+	 // for(String lvl:NoveltyMetric)
+	 // {
+	//	  level1=lvl;
+		  lines = new IO().readFile(level1);
+			System.out.println(level1);
+	  
 	 
 	 if (chromo==null)
 			 {
@@ -726,8 +733,7 @@ public class Chromosome implements Comparable<Chromosome>{
 			 ConLevel[i]=  stringList  ;
 			 conc="";
 			 }
-		 
-				
+		 				
 				 System.out.println(lines[0]); 
 
 				 for (int i = 0; i < 16; i++) 
@@ -744,6 +750,12 @@ public class Chromosome implements Comparable<Chromosome>{
 			 }
 	 else if (chromo.get(0).level.length>0)
 	 {
+		   for(String lvl:NoveltyMetric)
+		   {
+		 	  level1=lvl;
+			  lines = new IO().readFile(level1);
+		 
+		 
 		  ArrayList<String>[][] levelM ;
 		  conc="";
 		 for (int i=0; i<chromo.size() ; i++)
@@ -777,8 +789,8 @@ public class Chromosome implements Comparable<Chromosome>{
 		// System.out.println(noveltyValue);
 		 
 		 
-	 }
-	
+	  }
+	}
 	
 		 
 		}
@@ -810,7 +822,8 @@ public class Chromosome implements Comparable<Chromosome>{
 			if (name.startsWith("datathief_glvl") && (name.endsWith(".txt") ))
 					{
 					
-				System.out.println(file);
+				//System.out.println(file);
+				name="examples/gridphysics/" + name;
 				NoveltyMetric.add(name) ;
 				
 					}

@@ -18,6 +18,7 @@ public class SharedData {
 	public static  String ACTIVE_GAME="";
 	public static  String ACTIVE_LEVEL="";
 	public static  String LEVEL_CREATED="";
+	public static  String LEVEL_TYPE="Hyb";// GA // NS
 	public static ArrayList<Chromosome> CHROMO; 
 	/**
 	 * The amount of times used to check the one step look ahead and do nothing algorithm

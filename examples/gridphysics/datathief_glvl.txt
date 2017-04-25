@@ -3,24 +3,24 @@ LevelMapping
     b > bcoin 
     c > cam 
     e > eDoor 
-    f > firewall wall 
+    f > firewall 
     w > wall 
     l > loud 
 
 LevelDescription
 wwwwwwwwwwwwwwww
-w          w f w
-wf     www w   w
-w lc cb    w wlw
-w    b ww  w www
-w         w    w
-wwww f  ww  cb w
-w        w  wwww
-w      fllb    w
-wb   l       c w
-w     c   blwwaw
-w   c      w w w
-w        e wcl w
-w         ww www
-w         w    w
+w      c   c w w
+wwwww       wwfw
+w      wwwww wcw
+wwww     l   w w
+w   wwwwl      w
+w   ab  wwwww  w
+wl      w      w
+w   c   w      w
+w    wwwww wwwww
+w      b   l   w
+w b         f  w
+w ef    c     lw
+w  l l fwwww   w
+w     b w      w
 wwwwwwwwwwwwwwww

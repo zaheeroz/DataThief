@@ -252,22 +252,7 @@ public class ArcadeMachine {
 	VGDLFactory.GetInstance().init(); // This always first thing to do.
 	VGDLRegistry.GetInstance().init();
 	
-	int fileTotalLength= levelFile.length();
-	int fileBaseLength=39; //   with .txt
-	int fileTxtRemove=fileTotalLength-fileBaseLength;
-	
-	if (fileTotalLength==fileBaseLength)
-	{
-		levelFile = levelFile.substring(0, levelFile.length()-4); 
-		levelFile=levelFile+System.currentTimeMillis();
-		levelFile=levelFile+".txt" ;
-	}
-	else if (fileTotalLength>fileBaseLength)
-	{
-		levelFile = levelFile.substring(0, levelFile.length()-fileTxtRemove); 
-		levelFile=levelFile+System.currentTimeMillis();
-		levelFile=levelFile+".txt" ;
-	}
+	 
 	
 	System.out.println(	" ** Generating a level for " + gameFile + ", using level generator " + levelGenerator + " **");
 
@@ -310,6 +295,74 @@ public class ArcadeMachine {
 	return true;
     }
 
+    
+public static boolean generateOneLevelHyb(String gameFile, String levelGenerator, String levelFile) {    //////////////////////////////////////////////////////////////
+    	
+		//System.out.println(gameFile ); System.out.println(levelGenerator);System.out.println(levelFile);
+								
+VGDLFactory.GetInstance().init(); // This always first thing to do.
+VGDLRegistry.GetInstance().init();
+
+int fileTotalLength= levelFile.length();
+int fileBaseLength=39; //   with .txt
+int fileTxtRemove=fileTotalLength-fileBaseLength;
+
+if (fileTotalLength==fileBaseLength)
+{
+levelFile = levelFile.substring(0, levelFile.length()-4); 
+levelFile=levelFile+System.currentTimeMillis();
+levelFile=levelFile+".txt" ;
+}
+else if (fileTotalLength>fileBaseLength)
+{
+levelFile = levelFile.substring(0, levelFile.length()-fileTxtRemove); 
+levelFile=levelFile+System.currentTimeMillis();
+levelFile=levelFile+".txt" ;
+}
+
+System.out.println(	" ** Generating a level for " + gameFile + ", using level generator " + levelGenerator + " **");
+
+// First, we create the game to be played..
+Game toPlay = new VGDLParser().parseGame(gameFile);
+GameDescription description = new GameDescription(toPlay); //all game sprites and data 
+AbstractLevelGenerator generator = createLevelGenerator(levelGenerator, description);
+String level = getGeneratedLevel(description, toPlay, generator);////////////////////////////////////////////////////
+if (level == "" || level == null) {
+System.out.println("Empty Level Disqualified");
+toPlay.disqualify();
+
+// Get the score for the result.
+toPlay.handleResult();
+toPlay.printResult();
+return false;
+}
+
+HashMap<Character, ArrayList<String>> charMapping = generator.getLevelMapping();
+if (charMapping != null) {
+toPlay.setCharMapping(charMapping);
+}
+
+try {
+toPlay.buildStringLevel(level.split("\n"), 0);
+} catch (Exception e) {
+System.out.println("Undefined symbols or wrong number of avatars Disqualified ");
+toPlay.disqualify();
+
+// Get the score for the result.
+toPlay.handleResult();
+toPlay.printResult();
+return false;
+}
+
+if (levelFile != null) {
+saveLevel(level, levelFile, toPlay.getCharMapping());
+}
+
+return true;
+}
+    
+    
+    
     /**
      * A player (human or bot) plays a generated level, which is passed by
      * parameter, in a determined game.

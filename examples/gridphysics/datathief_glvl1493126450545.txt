@@ -1,0 +1,26 @@
+LevelMapping
+    a > avatar 
+    b > bcoin 
+    c > cam 
+    e > eDoor 
+    f > firewall 
+    w > wall 
+    l > loud 
+
+LevelDescription
+wwwwwwwwwwwwwwww
+w        w     w
+w      www     w
+w              w
+w f  b      f  w
+wc      wwwww  w
+w e f     b  www
+w c     l www  w
+wwwwbc  c   wb w
+w  a wwwww   l w
+w   c  w  www  w
+w  wwwww  c    w
+w    l  wwwwwwww
+www ww  c  l   w
+w   w    l cw  w
+wwwwwwwwwwwwwwww

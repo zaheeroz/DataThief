@@ -36,6 +36,7 @@ public class Test {
 	String randomRuleGenerator = "ruleGenerators.randomRuleGenerator.RuleGenerator";
 	String constructiveRuleGenerator = "ruleGenerators.constructiveRuleGenerator.RuleGenerator";
 	
+	
 	// Available games:
 	String gamesPath = "examples/gridphysics/";
 	String games[] = new String[] {};
@@ -104,11 +105,37 @@ public class Test {
 	// 5. This starts a game, in a generated level created by a specific level generator
 	// if(ArcadeMachine.generateOneLevel(game, randomLevelGenerator, recordLevelFile))
 	
-if(ArcadeMachine.generateOneLevel(game, geneticGenerator, recordLevelFile))
+
+	// Level Type: Hyb, GA, NS
+    SharedData.LEVEL_TYPE="NS";// "GA" // "NS"   "Hyb"
+	
+	
+if (SharedData.LEVEL_TYPE=="Hyb")
+{
+if(ArcadeMachine.generateOneLevelHyb(game, geneticGenerator, recordLevelFile))
   {
 	if (SharedData.LEVEL_CREATED !="") {recordLevelFile=SharedData.LEVEL_CREATED ;}
  		 ArcadeMachine.playOneGeneratedLevel(game, recordActionsFile, recordLevelFile, seed);
  	 }
+}
+else if (SharedData.LEVEL_TYPE=="GA")
+{
+	if(ArcadeMachine.generateOneLevel(game, geneticGenerator, recordLevelFile))
+	  {
+		if (SharedData.LEVEL_CREATED !="") {recordLevelFile=SharedData.LEVEL_CREATED ;}
+	 		 ArcadeMachine.playOneGeneratedLevel(game, recordActionsFile, recordLevelFile, seed);
+	 	 }	
+}
+else if (SharedData.LEVEL_TYPE=="NS")
+{
+	if(ArcadeMachine.generateOneLevelHyb(game, geneticGenerator, recordLevelFile))
+	  {
+		if (SharedData.LEVEL_CREATED !="") {recordLevelFile=SharedData.LEVEL_CREATED ;}
+	 		 ArcadeMachine.playOneGeneratedLevel(game, recordActionsFile, recordLevelFile, seed);
+	 	 }	
+}
+
+
 
 	//6. This plays N games, in the first L levels, M times each. Actions to file optional (set saveActions to true).
 //	int N = 92, L = 5, M = 10;

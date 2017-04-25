@@ -64,8 +64,10 @@ public class LevelGenerator extends AbstractLevelGenerator{
 		ArrayList<Double> fitnessArray = new ArrayList<Double>();
 		for(int i=0;i<fPopulation.size();i++)
 		{ 
+			if (SharedData.LEVEL_TYPE !="NS")
+			{
 			fitnessArray.add(fPopulation.get(i).getFitness().get(0));
-		
+			}
 		}
 
 		Collections.sort(fitnessArray);
@@ -274,8 +276,12 @@ public class LevelGenerator extends AbstractLevelGenerator{
 					chromosome.InitializeRandom();
 				} 
 				
-					chromosome.calculateFitness(SharedData.EVALUATION_TIME);		
-			
+					chromosome.calculateFitness(SharedData.EVALUATION_TIME);	
+					
+					
+					
+					if (SharedData.LEVEL_TYPE == "Hyb")
+					{
 				if(chromosome.getConstrainFitness() < 1 && (chromosome.getNovelty(0)<SharedData.NOVELTY_THRESHOLD))
 					{
 						iChromosomes.add(chromosome);
@@ -286,8 +292,44 @@ public class LevelGenerator extends AbstractLevelGenerator{
 					fChromosomes.add(chromosome);
 					System.out.println("\tChromosome #" + (i+1) + " Fitness: " + chromosome.getFitness()+ " Novelty: " + chromosome.getNovelty(0));
 				} 
+					}
+					
+					
+					
+					if (SharedData.LEVEL_TYPE == "NS")
+					{
+				if((chromosome.getNovelty(0)<SharedData.NOVELTY_THRESHOLD))
+					{
+						iChromosomes.add(chromosome);
+						System.out.println("\tChromosome #" + (i+1) +   " Novelty: " + chromosome.getNovelty(0));							
+					}
+				else
+				{				 
+					fChromosomes.add(chromosome);
+					System.out.println("\tChromosome #" + (i+1) +   " Novelty: " + chromosome.getNovelty(0));
+				} 
+					}
+					
+					
+					
+					
+					
+					
+				
+				if (SharedData.LEVEL_TYPE == "GA")
+					{
+				if(chromosome.getConstrainFitness() < 1 )
+					{
+						iChromosomes.add(chromosome);
+						System.out.println("\tChromosome #" + (i+1) + " Constrain Fitness: " + chromosome.getConstrainFitness() );							
+					}
+				else
+				{				 
+					fChromosomes.add(chromosome);
+					System.out.println("\tChromosome #" + (i+1) + " Fitness: " + chromosome.getFitness());
+				} 
 			}
-		
+		}
 
 		//some variables to make sure not getting out of time
 		double worstTime = SharedData.EVALUATION_TIME * SharedData.POPULATION_SIZE;
@@ -311,10 +353,11 @@ public class LevelGenerator extends AbstractLevelGenerator{
 			ArrayList<Chromosome> chromosomes = getNextPopulation(fChromosomes, iChromosomes);
 			fChromosomes.clear();
 			iChromosomes.clear();
-			int k=0;
+			//int k=0;
 			for(Chromosome c:chromosomes)
 			{
-				System.out.println (c.getNovelty(0));
+				if (SharedData.LEVEL_TYPE =="Hyb")
+					{
 				if (c.getNovelty(0) < SharedData.NOVELTY_THRESHOLD)
 				{
 					if ((c.getConstrainFitness() < 1))
@@ -336,8 +379,34 @@ public class LevelGenerator extends AbstractLevelGenerator{
 				 
 					 
 				}
-				k=k+1;
+					}
 				
+				
+				
+				if (SharedData.LEVEL_TYPE =="NS")
+				{
+					if (c.getNovelty(0) > SharedData.NOVELTY_THRESHOLD)
+					{
+						iChromosomes.add(c);						
+					}
+						 
+					else
+					{
+						fChromosomes.add(c);		 
+					}
+				
+				}	
+				
+				if (SharedData.LEVEL_TYPE =="GA")
+				{		 
+					if ((c.getConstrainFitness() < 1))
+						{
+							iChromosomes.add(c);		
+						}
+					else{
+						fChromosomes.add(c);
+				 		}	
+				}
 			}
 			
 			numberOfIterations += 1;
@@ -345,13 +414,11 @@ public class LevelGenerator extends AbstractLevelGenerator{
 			avgTime = totalTime / numberOfIterations;
 			
 			if (numberOfIterations >5)  break ;
+		
 		}
 		
 		
-		
-		
-		
-		//return the best infeasible chromosome
+	 
 		if(fChromosomes.isEmpty()){
 			for(int i=0;i<iChromosomes.size();i++){
 				iChromosomes.get(i).calculateFitness(SharedData.EVALUATION_TIME);
