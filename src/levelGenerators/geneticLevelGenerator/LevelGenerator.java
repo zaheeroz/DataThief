@@ -259,36 +259,34 @@ public class LevelGenerator extends AbstractLevelGenerator{
 		System.out.println("Generation #1: ");
 		ArrayList<Chromosome> fChromosomes = new ArrayList<Chromosome>();
 		ArrayList<Chromosome> iChromosomes = new ArrayList<Chromosome>();
-		for(int i =0; i < SharedData.POPULATION_SIZE ; i++){  // remove -45
+		
+		
+		for(int i =0; i < SharedData.POPULATION_SIZE ; i++) // remove -45
+		{  
 
-			//initialize the population using either randomly or using contructive level generator
-			Chromosome chromosome = new Chromosome(width, height);
-			if(SharedData.CONSTRUCTIVE_INITIALIZATION){
+				Chromosome chromosome = new Chromosome(width, height); //initialize the population using either randomly or using contructive level generator
+				if(SharedData.CONSTRUCTIVE_INITIALIZATION){
 				 
-				chromosome.InitializeConstructive();//levelx=chromosome.InitializeConstructive(st);
+					chromosome.InitializeConstructive();//levelx=chromosome.InitializeConstructive(st);
+				}
+				else
+				{
+					chromosome.InitializeRandom();
+				} 
+				
+					chromosome.calculateFitness(SharedData.EVALUATION_TIME);		
+			
+				if(chromosome.getConstrainFitness() < 1 && (chromosome.getNovelty(0)<SharedData.NOVELTY_THRESHOLD))
+					{
+						iChromosomes.add(chromosome);
+						System.out.println("\tChromosome #" + (i+1) + " Constrain Fitness: " + chromosome.getConstrainFitness() + " Novelty: " + chromosome.getNovelty(0));							
+					}
+				else
+				{				 
+					fChromosomes.add(chromosome);
+					System.out.println("\tChromosome #" + (i+1) + " Fitness: " + chromosome.getFitness()+ " Novelty: " + chromosome.getNovelty(0));
+				} 
 			}
-			else{
-				chromosome.InitializeRandom();
-			} //  levelM=  chromosome.getLevelMapping();   String Levelxx=chromosome.getLevelString(levelM);   System.out.println(Levelxx);
-	 
-
-			//calculate the fitness for all the chromosomes and add them to the correct population///////////////////////////////////////////////////////////////////////////////////////////////////
-			//either the feasible or the infeasible one/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-			
-			 chromosome.calculateFitness(SharedData.EVALUATION_TIME);		
-			
-			if(chromosome.getConstrainFitness() < 1)
-			{
-				iChromosomes.add(chromosome);
-				System.out.println("\tChromosome #" + (i+1) + " Constrain Fitness: " + chromosome.getConstrainFitness());							
-			}
-			else
-			{				 
-				fChromosomes.add(chromosome);
-				System.out.println("\tChromosome #" + (i+1) + " Fitness: " + chromosome.getFitness());
-			} 
-		}
 		
 
 		//some variables to make sure not getting out of time
@@ -313,9 +311,23 @@ public class LevelGenerator extends AbstractLevelGenerator{
 			ArrayList<Chromosome> chromosomes = getNextPopulation(fChromosomes, iChromosomes);
 			fChromosomes.clear();
 			iChromosomes.clear();
+			int k=0;
 			for(Chromosome c:chromosomes)
 			{
-				if ((c.getConstrainFitness() < 1) && (c.getNovelty(0)<1))
+				System.out.println (c.getNovelty(0));
+				if (c.getNovelty(0) < SharedData.NOVELTY_THRESHOLD)
+				{
+					if ((c.getConstrainFitness() < 1))
+					{
+						iChromosomes.add(c);		
+							}
+					else{
+						fChromosomes.add(c);
+					 
+					}
+					
+				}
+				else if ((c.getConstrainFitness() < 1) && (c.getNovelty(0) > SharedData.NOVELTY_THRESHOLD))
 				{
 					iChromosomes.add(c);		
 						}
@@ -324,6 +336,7 @@ public class LevelGenerator extends AbstractLevelGenerator{
 				 
 					 
 				}
+				k=k+1;
 				
 			}
 			

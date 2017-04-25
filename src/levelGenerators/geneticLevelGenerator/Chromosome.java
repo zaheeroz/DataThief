@@ -730,7 +730,9 @@ public class Chromosome implements Comparable<Chromosome>{
 		 		 
 				 }
 				 
-				 noveltyValue=(float)cost/(16*16);
+				 noveltyValue=(double)cost/(16*16);
+				 System.out.println(PopNoveltyValue.size());
+				 PopNoveltyValue.add(PopNoveltyValue.size(),noveltyValue); ////   0 ??
 				 System.out.println(noveltyValue);
 				 
 			 }
@@ -776,6 +778,14 @@ public class Chromosome implements Comparable<Chromosome>{
 		
 	public  double getNovelty(int i)
 	{
+		
+		
+		for (int k=0; k<PopNoveltyValue.size(); k++)
+		{
+			
+			System.out.println(PopNoveltyValue.get(k));
+			
+		}
 		return (this.PopNoveltyValue.get(i)) ;
 	}
 	

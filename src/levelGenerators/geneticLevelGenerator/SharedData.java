@@ -34,6 +34,9 @@ public class SharedData {
 	 * Crossover probability
 	 */
 	public static final double CROSSOVER_PROB = 0.7;
+	
+	public static final double NOVELTY_THRESHOLD = 0.97;
+	public static int NUMBER_OF_LEVELS = 0;
 	/**
 	 * Mutation probability
 	 */
